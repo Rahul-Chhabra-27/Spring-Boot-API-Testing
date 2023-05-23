@@ -23,6 +23,7 @@ public class StudentController {
 
     @GetMapping("/student/{id}")
     public void getAStudent(Integer id){
+        System.out.println("Id " + id);
         studentService.getStudent(id);
 //        return new ResponseEntity<>(studentService.getStudent(),HttpStatus.OK);
 
@@ -34,8 +35,6 @@ public class StudentController {
         studentService.saveStudent(student);
         return new ResponseEntity<>(student,HttpStatus.CREATED);
     }
-
-
 }
 
 // solve this without tdd
