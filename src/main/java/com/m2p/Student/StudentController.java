@@ -12,28 +12,31 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class StudentController {
+
     @Autowired
     private StudentService studentService;
 
 
     @GetMapping("/students")
-    public ResponseEntity<List<Student>> getAllStudents(Integer id, String name){
-        return new ResponseEntity<>(studentService.getStudents(id,name),HttpStatus.OK);
+    public ResponseEntity<List<Student>> getAllStudents(){
+        return new ResponseEntity<>(studentService.getStudents(),HttpStatus.OK);
     }
 
     @GetMapping("/student/{id}")
-    public void getAStudent(Integer id){
-        System.out.println("Id " + id);
-        studentService.getStudent(id);
-//        return new ResponseEntity<>(studentService.getStudent(),HttpStatus.OK);
+    public ResponseEntity<Student> getAStudent(@PathVariable Integer id){
+        return new ResponseEntity<>(studentService.getStudent(id),HttpStatus.OK);
 
     }
 
     @PostMapping("/student")
     public ResponseEntity<Student> saveStudent(@RequestBody Student student){
-        System.out.println(student.getName());
-        studentService.saveStudent(student);
-        return new ResponseEntity<>(student,HttpStatus.CREATED);
+        Student response = studentService.saveStudent(student);
+        if(response != null) {
+            return new ResponseEntity<>(student, HttpStatus.CREATED);
+        }
+        else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 }
 

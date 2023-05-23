@@ -24,11 +24,13 @@ public class StudentRepo {
         return studentList;
     }
 
-    public void saves(Student student) {
+    public Student saves(Student student) {
        Student getStudentById = this.studentUtils.findById(studentList,student.getId());
-       if(getStudentById != null) {
-            studentList.add(student);
+       if(getStudentById == null) {
+            this.studentList.add(student);
+           System.out.println(this.studentList.size());
        }
+       return null;
     }
 
     public Student getStudentById(Integer id) {
