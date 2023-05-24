@@ -24,8 +24,11 @@ public class StudentController {
 
     @GetMapping("/student/{id}")
     public ResponseEntity<Student> getAStudent(@PathVariable Integer id){
-        return new ResponseEntity<>(studentService.getStudent(id),HttpStatus.OK);
-
+        Student student = studentService.getStudent(id);
+        if(student != null) {
+            return new ResponseEntity<>(student,HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping("/student")

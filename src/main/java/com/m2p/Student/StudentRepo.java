@@ -29,6 +29,7 @@ public class StudentRepo {
        if(getStudentById == null) {
             this.studentList.add(student);
            System.out.println(this.studentList.size());
+           return student;
        }
        return null;
     }
