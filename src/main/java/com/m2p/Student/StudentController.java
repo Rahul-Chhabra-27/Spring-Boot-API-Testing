@@ -42,6 +42,3 @@ public class StudentController {
         }
     }
 }
-
-// solve this without tdd
-// solve shooting game with tdd

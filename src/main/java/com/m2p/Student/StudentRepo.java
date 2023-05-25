@@ -10,8 +10,6 @@ import java.util.Optional;
 @Repository
 public class StudentRepo {
 
-    @Autowired
-    private StudentUtils studentUtils;
     private List<Student> studentList = new ArrayList<>();
 
     StudentRepo() {
@@ -21,20 +19,38 @@ public class StudentRepo {
     }
 
     public List<Student> getStudentList() {
-        return studentList;
+        return this.studentList;
     }
 
     public Student saves(Student student) {
-       Student getStudentById = this.studentUtils.findById(studentList,student.getId());
-       if(getStudentById == null) {
-            this.studentList.add(student);
-           System.out.println(this.studentList.size());
-           return student;
-       }
-       return null;
+
+        Student isStudentAlreadyExist = this.getStudentById(student.getId());
+
+        // checking if the student is already exist.....
+        if(isStudentAlreadyExist != null) return null;
+
+        // saving the student....
+        this.studentList.add(student);
+
+        // returning the student...
+        return student;
     }
 
     public Student getStudentById(Integer id) {
-        return this.studentUtils.findById(studentList,id);
+
+        // getting the size of the list...........
+        int n = studentList.size();
+
+        // Iterating over the loop to check whether any student exist with sae id.
+        for(int student = 0; student < n; student++) {
+            Student currentStudent = studentList.get(student);
+
+            if(currentStudent.getId() == id) {
+                // returning the currentStudent...
+                return currentStudent;
+            }
+        }
+        // Means NO Student found with id as id.
+        return null;
     }
 }

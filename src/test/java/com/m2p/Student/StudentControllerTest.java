@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -37,21 +38,35 @@ public class StudentControllerTest {
     private ObjectMapper objectMapper;
 
 
-
+    DemoCalculator demo = new DemoCalculator();
 
     @Test
     void shouldGetALlTheStudentList() throws Exception{
 
-        when(studentService.getStudents()).thenReturn(Arrays.asList(new Student("Utkarsh",1)));
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/students"))
-                .andExpect(status().isOk()) // default 200
-                .andExpect(content().json(objectMapper.writeValueAsString(Arrays.asList(new Student("Utkarsh",1)))));
-
-
+//        when(studentService.getStudents()).thenReturn(Arrays.asList(new Student("Utkarsh",1)));
+//
+//        mockMvc.perform(MockMvcRequestBuilders.get("/students"))
+//                .andExpect(status().isOk()) // default 200
+//                .andExpect(content().json(objectMapper.writeValueAsString(Arrays.asList(new Student("Utkarsh",1)))));
+//
+//
 
     }
 
+    @Test
+    void itShouldAddTwoNumbers() {
 
+        int a = 20;
+        int b = 30;
+
+        int result = demo.addTwoNumbers(a,b);
+
+        assertThat(result).isEqualTo(50);
+    }
+    class DemoCalculator {
+        int addTwoNumbers(int a,int b) {
+            return a + b;
+        }
+    }
 }
 

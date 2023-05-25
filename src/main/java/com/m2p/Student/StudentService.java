@@ -19,11 +19,10 @@ public class StudentService {
     };
 
     public Student saveStudent(Student student) {
-        return studentRepo.saves(student);
+        return this.studentRepo.saves(student);
     }
 
     public Student getStudent(Integer id) {
         return studentRepo.getStudentById(id);
-
     }
 }
