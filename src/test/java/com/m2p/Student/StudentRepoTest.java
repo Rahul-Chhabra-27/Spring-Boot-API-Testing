@@ -1,5 +1,6 @@
 package com.m2p.Student;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -10,37 +11,57 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.util.List;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest
 class StudentRepoTest {
 
     @Autowired
-    private  StudentRepo underTest;
+    private  StudentRepo studentRepo;
 
     @Test
-    void shouldCheckIfStudentIdExists() {
-        // given..
-        Student student = new Student("Amit",20);
+    void shouldSaveTheStudent() {
 
-        // Assuming that underTest,save() function works fine.
-        underTest.saves(student);
+        // Acquire..
+        Student student = new Student("Sam",10);
 
-        // when
-        Student result =  underTest.getStudentById(20);
+        // Act..
+        Student savedStudent = studentRepo.saves(student);
 
-        // then.
-        assertThat(result).isEqualTo(student);
+        // Assertion..
+        Assertions.assertThat(savedStudent).isNotNull();
+        Assertions.assertThat(savedStudent.getId()).isGreaterThan(0);
+
     }
     @Test
-    void shouldCheckIfStudentIdDoesNotExists() {
-        // given student id, this id never exist in students list..
-        int studentId = 100101;
+    void shouldGetAllTheStudents() {
+        // Acquire..
+        Student student = new Student("Sam",15);
+        Student student2 = new Student("Akki",20);
 
-        // when
-        Student result =  underTest.getStudentById(studentId);
+        // Act..
+        studentRepo.saves(student);
+        studentRepo.saves(student2);
 
-        // then.
-        assertThat(result).isEqualTo(null);
+        List<Student> students = studentRepo.getStudentList();
+
+        // Assertion..
+        Assertions.assertThat(students).isNotNull();
+        Assertions.assertThat(students.size()).isGreaterThan(2);
+    }
+    @Test
+    void shouldGetTheIdOfTheStudent() {
+        // Acquire..
+        Student student = new Student("sam",4);
+
+        // Act
+        studentRepo.saves(student);
+        Student savedStudent = studentRepo.getStudentById(student.getId());
+
+        // Assertion..
+        Assertions.assertThat(student).isEqualTo(savedStudent);
+        Assertions.assertThat(student.getId()).isGreaterThan(0);
     }
 }

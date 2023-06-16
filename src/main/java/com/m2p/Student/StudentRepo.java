@@ -13,9 +13,9 @@ public class StudentRepo {
     private List<Student> studentList = new ArrayList<>();
 
     StudentRepo() {
-        studentList.add(new Student("Rahul Chhabra",1));
-        studentList.add(new Student("Steve benjamin",2));
-        studentList.add(new Student("John Doe",3));
+//        studentList.add(new Student("Rahul Chhabra",1));
+//        studentList.add(new Student("Steve benjamin",2));
+//        studentList.add(new Student("John Doe",3));
     }
 
     public List<Student> getStudentList() {

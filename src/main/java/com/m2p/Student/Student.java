@@ -1,5 +1,8 @@
 package com.m2p.Student;
 
+import lombok.Builder;
+import lombok.Data;
+
 import java.util.Objects;
 
 public class Student {
