@@ -1,64 +1,72 @@
 package com.m2p.Student;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
+
+import java.util.Arrays;
+import java.util.List;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class StudentServiceTest {
 
     @Mock
     private StudentRepo studentRepo;
-    private StudentService underTest;
-    @BeforeEach
-    void setUp() {
-        underTest = new StudentService(studentRepo);
-    }
+
+    @InjectMocks private StudentService studentService;
+
     @Test
     void canGetAllTheStudents() {
-        // When...
-        underTest.getStudents();
+       // Act
+        Student student = new Student("Rahul",27);
+        Student student2 = new Student("PW",100);
 
-        // Then...
-        verify(studentRepo).getStudentList();
+        // Acquire..
+        when(studentRepo.getStudentList()).thenReturn(Arrays.asList(student,student2)); // Mocking things...
+        List<Student> students = studentService.getStudents();
+
+        // Acquire..
+        Assertions.assertThat(students).isNotNull();
+        Assertions.assertThat(students.size()).isEqualTo(2);
+
     }
     @Test
     void canAddTheStudent() {
-        // given...
-        Student student = new Student("Banggad billa",10);
-        // When...
-        underTest.saveStudent(student);
+        // Act..
+        Student student = new Student("Amit",10);
 
-        // Then...
-        ArgumentCaptor<Student> studentArgumentCaptor = ArgumentCaptor.forClass(Student.class);
+        // Acquire..
+        when(studentRepo.saves(student)).thenReturn(student);
+        Student savedStudent = studentService.saveStudent(student);
 
-        verify(studentRepo).saves(studentArgumentCaptor.capture());
+        // Assertion..
+        Assertions.assertThat(savedStudent).isNotNull();
+        Assertions.assertThat(savedStudent.getId()).isEqualTo(10);
 
-        Student capturedStudent = studentArgumentCaptor.getValue();
-
-        assertThat(capturedStudent).isEqualTo(student);
     }
 
     @Test
     void getStudent() {
-        // given...
-        int studentId = 1;
+       // Act..
+        Student student = new Student("Rahul",27);
 
-        // when...
+        // Acquire...
+        when(studentRepo.getStudentById(student.getId())).thenReturn(student);
+        Student fetchedStudent = studentService.getStudent(student.getId());
 
-        underTest.getStudent(studentId);
-        ArgumentCaptor<Integer> studentArgumentCaptor = ArgumentCaptor.forClass(Integer.class);
+        // Assertion..
+        Assertions.assertThat(fetchedStudent).isNotNull();
+        Assertions.assertThat(fetchedStudent.getId()).isEqualTo(student.getId());
 
-        // Then..
-        verify(studentRepo).getStudentById(studentArgumentCaptor.capture());
-        int studentCapturedId = studentArgumentCaptor.getValue();
-
-        assertThat(studentCapturedId).isEqualTo(studentId);
     }
 }
