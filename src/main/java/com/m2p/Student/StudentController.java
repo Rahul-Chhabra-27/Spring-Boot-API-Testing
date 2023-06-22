@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Optional;
 
 // inversion of control
 @RestController
@@ -23,9 +24,9 @@ public class StudentController {
     }
 
     @GetMapping("/student/{id}")
-    public ResponseEntity<Student> getAStudent(@PathVariable Integer id){
-        Student student = studentService.getStudent(id);
-        if(student != null) {
+    public ResponseEntity<Optional<Student>> getStudentById(@PathVariable Integer id){
+        Optional<Student> student = studentService.getStudent(id);
+        if(student.isPresent()) {
             return new ResponseEntity<>(student,HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
