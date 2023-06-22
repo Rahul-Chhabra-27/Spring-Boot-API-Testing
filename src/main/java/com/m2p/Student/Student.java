@@ -1,16 +1,20 @@
 package com.m2p.Student;
 
-import lombok.Builder;
-import lombok.Data;
+import jakarta.persistence.*;
+
 
 import java.util.Objects;
 
+@Entity
 public class Student {
 
-    // ASSUMING THAT ID SHOULD BE UNIQUE.
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String name;
 
+    public Student() {
+    }
 
     public Student(String name, Integer id) {
         this.name = name;

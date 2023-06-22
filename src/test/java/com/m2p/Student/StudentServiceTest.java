@@ -26,7 +26,7 @@ class StudentServiceTest {
     @InjectMocks private StudentService studentService;
 
     @Test
-    void canGetAllTheStudents() {
+    void shouldGetAllTheStudents() {
        // Act
         Student student = new Student("Rahul",27);
         Student student2 = new Student("PW",100);
@@ -35,13 +35,13 @@ class StudentServiceTest {
         when(studentRepo.getStudentList()).thenReturn(Arrays.asList(student,student2)); // Mocking things...
         List<Student> students = studentService.getStudents();
 
-        // Acquire..
+        // Assertion..
         Assertions.assertThat(students).isNotNull();
         Assertions.assertThat(students.size()).isEqualTo(2);
 
     }
     @Test
-    void canAddTheStudent() {
+    void shouldAddTheStudent() {
         // Act..
         Student student = new Student("Amit",10);
 
@@ -56,7 +56,7 @@ class StudentServiceTest {
     }
 
     @Test
-    void getStudent() {
+    void shouldGetTheStudent() {
        // Act..
         Student student = new Student("Rahul",27);
 
