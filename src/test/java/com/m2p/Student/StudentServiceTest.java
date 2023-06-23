@@ -31,7 +31,7 @@ class StudentServiceTest {
 
         // Act...
         when(studentRepo.findAll()).thenReturn(Arrays.asList(student,student1));
-        List<Student> students = this.studentRepo.findAll();
+        List<Student> students = this.studentService.getStudents();
 
         // Assertions...
         Assertions.assertThat(students).isNotNull();
@@ -45,7 +45,7 @@ class StudentServiceTest {
 
         // Act...
         when(studentRepo.save(student)).thenReturn(student);
-        Student savedStudent = this.studentRepo.save(student);
+        Student savedStudent = this.studentService.saveStudent(student);
 
         // Assertions...
         Assertions.assertThat(savedStudent).isNotNull();
@@ -59,7 +59,7 @@ class StudentServiceTest {
 
         // Act...
         when(studentRepo.findById(student.getId())).thenReturn(Optional.of(student));
-        Optional<Student> student1 = this.studentRepo.findById(student.getId());
+        Optional<Student> student1 = this.studentService.getStudent(student.getId());
 
         // Assertions..
         Assertions.assertThat(student1).isNotNull();
