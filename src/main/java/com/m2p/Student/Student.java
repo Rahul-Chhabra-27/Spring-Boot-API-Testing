@@ -1,6 +1,8 @@
 package com.m2p.Student;
 
 import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.Data;
 
 
 import java.util.Objects;
